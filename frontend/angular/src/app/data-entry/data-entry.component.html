@@ -1,0 +1,50 @@
+<div>
+    <h1>{{ title }}</h1>
+    <hr>
+    <form>
+        <label>Amount </label><input ngModel #amount="ngModel" type="number" id="amt" name="amount" (change)=setAmount(amount)> <br>
+    
+        <div [ngSwitch]="subsMode">
+            <label>Subscription : {{ subsMode }} {{ selectedWeek }} {{ selectedDate }} </label>
+            <ul class="list-group">
+                <!-- DAILY SUBS -->
+                <li class="list-group-item" [class.active]="subsMode == 'Daily'">
+                    <a (click)="subsMode = 'Daily'" (click)="selectedWeek = ''">Daily</a>
+                </li>
+                <div *ngSwitchCase="'Daily'">  </div>
+
+                <!-- WEEKLY SUBS -->
+                <li class="list-group-item" [class.active]="subsMode == 'Weekly'"><a (click)="subsMode = 'Weekly'">Weekly</a></li>
+                <div *ngSwitchCase="'Weekly'">
+                    <ul>
+                        <li [class.active]="selectedWeek == 'Monday'"><a (click)="selectedWeek = 'Monday'">Monday</a></li>
+                        <li [class.active]="selectedWeek == 'Tuesday'"><a (click)="selectedWeek = 'Tuesday'">Tuesday</a></li>
+                        <li [class.active]="selectedWeek == 'Wednesday'"><a (click)="selectedWeek = 'Wednesday'">Wednesday</a></li>
+                        <li [class.active]="selectedWeek == 'Thursday'"><a (click)="selectedWeek = 'Thursday'">Thursday</a></li>
+                        <li [class.active]="selectedWeek == 'Friday'"><a (click)="selectedWeek = 'Friday'">Friday</a></li>
+                        <li [class.active]="selectedWeek == 'Saturday'"><a (click)="selectedWeek = 'Saturday'">Saturday</a></li>
+                        <li [class.active]="selectedWeek == 'Sunday'"><a (click)="selectedWeek = 'Sunday'">Sunday</a></li>
+                    </ul>
+                </div>
+                
+                <!-- MONTHLY SUBS -->
+                <!-- <li  class="list-group-item"[class.active]="subsMode == 'Monthly'">
+                    <a (click)="subsMode = 'Monthly'" (click)="selectedWeek = ''">Monthly</a>
+                </li>
+                <div *ngSwitchCase="'Monthly'"> 
+                    <input ngModel #monthDay="ngModel" type="number" id="monthDay" name="monthDay" (change)=setMonthDay(monthDay)> <br>
+                </div> -->
+
+
+            </ul>
+        </div>
+
+        <label>Start Date: </label><input ngModel #startDate="ngModel" type="date" id="startDate" name="startDate" (change)=setStartDate(startDate)> <br> <br>
+        <label>End Date: </label><input ngModel #endDate="ngModel" type="date" id="endDate" name="endDate" (change)=verifyAndSetEndDate(endDate)> <br>
+        <div class="alert alert-danger" *ngIf="show > 0" >Maximum end date is 3 months</div>
+  
+        <button type="button" class="btn btn-primary" (click)=createSubs()>Submit</button>
+
+        <div *ngFor="let res of output">{{ res.amount }} {{res.subscriptionMode}} </div>
+    </form>
+  </div>
